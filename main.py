@@ -15,6 +15,7 @@
 # TODO: Install Folium and use it as the base map.
 
 import warnings
+import webbrowser
 
 import geopandas as gpd
 
@@ -65,7 +66,8 @@ def main():
         map_color="lightslategrey",
         background_color="lightcyan"
     )
-    print("Valmis!")    
+    print("Valmis!")
+    webbrowser.open("isokroni-kartta.html", autoraise=True)    
 
 
 if __name__ == "__main__":
