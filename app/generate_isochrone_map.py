@@ -25,12 +25,9 @@ def isochrone_generator(isoc_area, borders, point_locations, base_map, isoc_colo
     center_x = 0
     center_y = 0
     for x, y, label in zip(point_locations.geometry.x,point_locations.geometry.y,point_locations.name):
-        if label == center_name:
-            base.annotate(label, size=12, xy=(x,y), xytext=(-6,6), textcoords="offset points")
-            center_x = x
-            center_y = y
-            continue
-        base.annotate(label, size=9, xy=(x,y), xytext=(3,3), textcoords="offset points")
+        base.annotate(label, size=12, xy=(x,y), xytext=(-6,6), textcoords="offset points")
+        center_x = x
+        center_y = y
 
     # Rajataan karttanäkymä. Oletuksena näyttäisi kaiken, mitä ollaan piirretty, mutta koko Suomi on turhan iso alue.
     xmin,ymin,xmax,ymax = isoc_area.loc[3]["geometry"].bounds
