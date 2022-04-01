@@ -1,6 +1,7 @@
 # The main function to generate the end product.
 # TODO: Translate the Finnish comments into English.
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 def isochrone_generator(isoc_area, borders, point_locations, base_map, isoc_colors=[], point_color="grey", center_name="", buffer_zone=0, buffer_interval=0, buffer_color="black", map_color="grey", background_color="white", line_color="white"):
     # Isokroni-tiedoston GeoDataFrame. Muuten Suomen viralliseen projektiomuotoon.
@@ -20,11 +21,14 @@ def isochrone_generator(isoc_area, borders, point_locations, base_map, isoc_colo
     isoc_area.plot(ax=base, color=isoc_colors)
     point_locations.plot(ax=base, color=point_color, edgecolor="black", linewidth=1.0)
 
-    # Lisätään kartan pisteisiin otsikot.
-    # TODO: Poista keskuspiste tai lisää siihen erilainen otsikko.
+    # Lisätään kartan pisteisiin otsikot ja talletetaan kartan keskipiste.
+    center_x = 0
+    center_y = 0
     for x, y, label in zip(point_locations.geometry.x,point_locations.geometry.y,point_locations.name):
         if label == center_name:
             base.annotate(label, size=12, xy=(x,y), xytext=(-6,6), textcoords="offset points")
+            center_x = x
+            center_y = y
             continue
         base.annotate(label, size=9, xy=(x,y), xytext=(3,3), textcoords="offset points")
 
@@ -38,7 +42,15 @@ def isochrone_generator(isoc_area, borders, point_locations, base_map, isoc_colo
     # Piirretään buffer ympyrät. Yksikkönä toimii metrit.
     buffer = buffer_zone # Metreissä.
     for c in range(1,1+buffer_interval):
-        circle = plt.Circle(((xmin-mod+xmax+mod)/2,(ymin-mod+ymax+mod)/2), radius=buffer*c, color=buffer_color, fill=False)
+        circle = plt.Circle((center_x,center_y), radius=buffer*c, color=buffer_color, fill=False)
         base.add_artist(circle) # Circle-olio täytyy lisätä erikseen artistina karttaan. Katso matplotlibin ohjeet.
+
+    # Tehdään kartalle kuvaustekstit.
+    patch15 = mpatches.Patch(color=isoc_colors[3], label="15 min")
+    patch30 = mpatches.Patch(color=isoc_colors[2], label="30 min")
+    patch45 = mpatches.Patch(color=isoc_colors[1], label="45 min")
+    patch60 = mpatches.Patch(color=isoc_colors[0], label="60 min")
+
+    plt.legend(handles=[patch15,patch30,patch45,patch60])
 
     plt.show()
