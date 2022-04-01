@@ -12,6 +12,11 @@
 # Project funded by LEADER Karhuseutu, The European Agricultural Fund for Rural Development.
 #***************************************************************************************************************
 
+# TODO: Temporary fix. Mainly affects Shapely.
+# Update code later to conform to the warnings.
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
 import geopandas as gpd
 
 from app.prompt_query import prompt_query
@@ -23,7 +28,7 @@ from app.generate_isochrone_map import isochrone_generator
 
 def main():
     print("Ladataan Suomen kartta...")
-    finland_df = gpd.read_file(".data/kuntarajat2022.geojson")
+    finland_df = gpd.read_file("data/kuntarajat2022.geojson")
     print("Ladataan Suomen kaupungit kartalle...")
     town_df = generate_town_locations()
     print("Luodaan maakunnan rajat")
