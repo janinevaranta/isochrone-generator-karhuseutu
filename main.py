@@ -12,12 +12,13 @@
 # Project funded by LEADER Karhuseutu, The European Agricultural Fund for Rural Development.
 #***************************************************************************************************************
 
-# TODO: Temporary fix. Mainly affects Shapely.
-# Update code later to conform to the warnings.
+# TODO: Install Folium and use it as the base map.
+
 import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 import geopandas as gpd
+
+from shapely.errors import ShapelyDeprecationWarning
 
 from app.prompt_query import prompt_query
 from app.fetch_data import fetch_isochrone_data
@@ -25,6 +26,14 @@ from app.generate_town_locations import generate_town_locations
 from app.generate_isochrone_polygons import generate_isochrone_polygons
 from app.generate_ways_to_line import generate_ways_to_line
 from app.generate_isochrone_map import isochrone_generator
+
+# TODO: Temporary fix. Mainly affects Shapely.
+# Update code later to conform to the warnings.
+warnings.filterwarnings("ignore", category=ShapelyDeprecationWarning)
+
+# Stop pandas false positive warnings.
+import pandas as pd
+pd.options.mode.chained_assignment = None
 
 def main():
     print("Ladataan Suomen kartta...")
