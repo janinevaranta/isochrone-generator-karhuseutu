@@ -1,3 +1,17 @@
+#!python3 - Isochrone-Generator
+
+#***************************************************************************************************************
+# A tool to generate isochrone maps in Finland, in Finnish.
+# This tool is a part of exploration of different Business Intelligence
+# tools and methods to promote development of rural tourism destinations.
+# This specific tools explores and promotes the usage of public APIs for tourism destinations
+# to visualize their destination's accessibility.
+#***************************************************************************************************************
+# Created by Jani Nevaranta, 2022, Project Researcher at Satakunta University of Applied Sciences (SAMK)
+# for Tiedolla johtaminen matkailun menestystekijäksi Karhuseudun alueella -project.
+# Project funded by LEADER Karhuseutu, The European Agricultural Fund for Rural Development.
+#***************************************************************************************************************
+
 import geopandas as gpd
 
 from app.prompt_query import prompt_query
@@ -9,7 +23,7 @@ from app.generate_isochrone_map import isochrone_generator
 
 def main():
     print("Ladataan Suomen kartta...")
-    finland_df = gpd.read_file("/Volumes/OuterMemory/Downloads/kuntarajat.geojson")
+    finland_df = gpd.read_file(".data/kuntarajat2022.geojson")
     print("Ladataan Suomen kaupungit kartalle...")
     town_df = generate_town_locations()
     print("Luodaan maakunnan rajat")
@@ -18,7 +32,7 @@ def main():
     center_coordinates, center_name = prompt_query(town_df) 
 
     print("API-kutsu tehty OpenRouteServiceen. Odotetaan vastausta...")
-    iso_data = fetch_isochrone_data(center_coordinates, api_key_file_path=r"/Volumes/OuterMemory/SAMK/api_key_ors.txt")
+    iso_data = fetch_isochrone_data(center_coordinates, api_key_file_path=r"keys/api_key_ors.txt")
     print("Luodaan isokroni-alueet...")
     iso_df = generate_isochrone_polygons(iso_data)
 
