@@ -43,10 +43,10 @@ def main():
     print("Luodaan maakunnan rajat")
     borders_df = generate_ways_to_line()
 
-    center_coordinates, center_name = prompt_query(town_df) 
+    center_coordinates, center_name, method = prompt_query(town_df) 
 
     print("API-kutsu tehty OpenRouteServiceen. Odotetaan vastausta...")
-    iso_data = fetch_isochrone_data(center_coordinates, api_key_file_path=r"keys/api_key_ors.txt")
+    iso_data = fetch_isochrone_data(center_coordinates, method, api_key_file_path=r"keys/api_key_ors.txt")
     print("Luodaan isokroni-alueet...")
     iso_df = generate_isochrone_polygons(iso_data)
 

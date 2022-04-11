@@ -27,8 +27,13 @@ def prompt_query(town_df):
         lat = input("Anna pituusaste: ")
         name = ""
 
+    method = input("Valitse matkustustapa antamalla numero (1-3):\n1 = auto\n2 = polkupyörä\n3 = kävely\n")
+    if method not in ["1","2","3"]:
+        print("Virheellinen numero. Valitaan oletukseksi auto.")
+        method = 1
+    
     coordinates.append(lon)
     coordinates.append(lat)
 
-    return (coordinates, name)
+    return (coordinates, name, method)
 
